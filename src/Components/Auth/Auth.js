@@ -3,6 +3,9 @@ import axios from 'axios';
 import {connect} from 'react-redux';
 import {getUserProfile} from './../../redux/reducer'
 import logo from './../../Images/logo.png'
+import './Auth.css'
+
+
 class Auth extends Component {
    constructor() {
       super();
@@ -38,11 +41,11 @@ class Auth extends Component {
               <img className='login-logo' alt='' src={logo}/>
               <h1 className='auth_title'>Helo</h1>
             <div className='auth_input_box'>
-              <p>Username</p>
+              <p>Username: </p>
               <input type='password'></input>
             </div>
             <div className="auth_input_box">
-              <p>Password</p>
+              <p>Password: </p>
               <input type='password'></input>
             </div>
             <div className="auth_button_container">
