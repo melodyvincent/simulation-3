@@ -1,36 +1,67 @@
-import React, { Component } from 'react'
-import Nav from './../Nav/Nav'
-import './Dashboard.css'
+import React, {Component} from 'react';
+import axios from 'axios'; 
 
 class Dashboard extends Component {
-    constructor(){
-        super();
+    state = {
+        searchInput: '',
+        myPosts: true,
+        posts: [{title: 'hi', author: 'me', picture: 'here'}, {title: 'hello', author: 'someone', picture: 'hmm'}]
+    }
 
-        this.state = {
-            searchInput: '',
-            userposts: true
-        }
+    async componentDidMount () {
+        let res = await axios.get(`/api/user-posts`)
+        console.log(res.data)
+    }
+
+    updateSearch (e) {
+        this.setState({
+            searchInput: e
+        })
+    }
+
+    toggleMyPosts() {
+        this.setState({
+            myPosts: !this.state.myPosts
+        })
     }
 
 
-    render() {
-        return (
-            <div className='dash'>
-            < Nav />
-            <div className='dash-filter-box'>
-               <div className='dash-search-box'>
-                  <input className='dash-search-bar' onChange={(e) => this.setState({ searchInput: e.target.value })} type="text"/>
-                  <button></button>
-               </div>
+    resetSearch () {
+        this.setState({
+            searchInput: ''
+        })
+    }
 
-               <div className='checkbox-container'>
-                  <p> My posts </p>
-                  <input type="checkbox"/>
-               </div>
+    render () {
+        return (
+            <div>
+                Dashboard
+                <input placeholder='Search posts...' value={this.state.searchInput} onChange={(e) => this.updateSearch(e.target.value)} />
+               <input type="checkbox" id='myPostsCheckbox' onChange={() => this.toggleMyPosts()} /> <span> My Posts </span>
+                <button>Search</button>
+                <button onClick={() => this.resetSearch()}>Reset</button>
+         
+            {this.state.posts.map(val => {
+                return (
+                    <div>
+                    <p>Title: {val.title}</p>
+                    <p>Author: {val.author}</p>
+                    <p>Picture: {val.profilePic}</p>
+                    </div>
+                )
+            })}
+        
+                
             </div>
-            <div className='post-container'></div>
-         </div>
-      );
-   }
+        )
+    }
 }
-export default Dashboard;
+
+function mapStateToProps(reduxstate) {
+    const {id, username, profilePic } = reduxstate;
+    return {id, username, profilePic}
+     
+  }
+  
+  export default connect(mapStateToProps)(Dashboard);
+  

@@ -1,31 +1,26 @@
 const initialState = {
     id: 0,
     username: '',
-    profile_pic: ''
+    profilePic: ''
  }
  
- //ACTION TYPES
- const GET_USER_PROFILE = 'GET_USER_PROFILE'
+const UPDATE_USER = 'UPDATE_USER'
+
+export default function reducer(state=initialState, action) {
+   switch (action.type) {
+      case UPDATE_USER:
+      return{...state, id: action.payload.id, username: action.payload.username, profilePic: action.payload.profilePic}
+   }
+}
+
+export function updateUser(id, username, profilePic) {
+   return{
+      type: UPDATE_USER,
+      payload: {id: id, username:username, profilePic: profilePic}
+   }
+}
+
+
+
+
  
- //ACTION CREATORS
- export function getUserProfile(userData) {
-    return {
-       type: GET_USER_PROFILE,
-       payload: userData
-    }
- }
- 
- //REDUCER FUNCTION
- export default function reducer(state = initialState, action) {
-    switch(action.type) {
-       case GET_USER_PROFILE:
-          let { id, username, profile_pic} = action.payload
-          return {...state, 
-             id: id,
-             username: username,
-             profile_pic: profile_pic}
- 
-       default:
-          return state;
-    }
- }

@@ -1,41 +1,31 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import React, from 'react';
 import {Link} from 'react-router-dom'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
-import Home from './../../Images/Home.png'
-import new from './../../Images/new.png'
-import power from './../../Images/power.png'
 
+function Nav(props) {
+  return(
+    <div>
+      {props.location.pathname === '/' ? null : <div>
+        <Link to="/dashboard"><button>Home</button></Link>
+        <Link to="/new"><button>New Post</button></Link>
+        <Link to="/"><button>Logout</button></Link>
+        <h1>Username: {props.username}</h1>
+        <h1>Id: {props.id}</h1>
+        <h2>Profile: Picture:  {props.profilePic}</h2>
+      </div>}
+    </div>
+  )
 
+function mapStateToProps(reduxstate) {
+  const {id, username, profilePic } = reduxstate;
+  return {id, username, profilePic}
+   
+}
 
-// function Nav(props) {
-//   return(
+export default connect(mapStateToProps)(Nav);
 
-//     <div className='App'>
-//       <div className='Nav'>
-//         <div className='nav_profile_container'>
-//           <div className='nav_profile_pic' style="background-image:url('https://robodash.org/');"></div>
-//             <p></p> 
+  
 
-//         <div className='nav_links'>
-//           <a ref="#dashboard">
-//             <img className="nav_img"src={home}alt="">
-//           </a>
-
-        
-
-
-//         </div>
-
-//       </div>
-
-//     </div>
-//   )
-// }
-// function mapStateToProps(reduxState) {
-//   const {username, profile_pic} = reduxState;
-//   return {username, profile_pic}
-
-// }
-
-// export default connect (mapStateToProps) (Nav);
