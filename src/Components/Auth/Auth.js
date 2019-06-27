@@ -14,65 +14,46 @@ class Auth extends Component {
          username: '',
          password: ''
       }
+      this.login = this.login.bind(this);
+      this.register = this.register.bind(this);
    };
+   handleChange(prop, val) {
+      if (val.lenght < 12) {
+         this.setState({
+            [prop]: val
+         })
+      }
+   }
 
-   updateUsername(e) {
-      this.setState({
-         username: e
-      })
+   login() {
+      axios.post('api/v1/auth/login', this.state)
+         .then(res => {
+            this.props.updateUser(res.data);
+            this.props.history.push('/dashboard')
+         })
+   }
+
+   register(){
+      axios.post('/api/v/auth/register', this.state)
+         .then(res => {
+            this.props.updateUser(res.data);
+            this.props.history.push('/dashboard')
+         })
    }
    
-   updatePassword(e) {
-      this.setState({
-         password:e
-      })
-   }
-
-   async register() {
-      if(!this.state.username || !this.state.password) 
-      return alert("Please enter a username and password.")
-      let res = await axios.post(`/auth/register`, {
-         username: this.state.username,
-         password: this.state.password
-      })
-
-      if (res.data.message === 'loggedIn') {
-         this.props.history.push('/dashboard')
-      } else {
-         alert(res.data.message)
-      }
-   };
-
-
-   async login() {
-      if(!this.state.username || !this.state.password) return alert("Please enter a username and password")
-      let res = await axios.post(`/auth/register`, {
-         username: this.state.username,
-         password: this.state.password
-      });
-      if(res.data.message === 'loggedIn') {
-         this.props.history.push('/dashboard')
-         this.props.updateUser(res.data.user.id, res.data.user.username, 'image');
-      } else {
-         console.log(res.data.message)
-      }
-   }
-
    render() {
       return (
          <div className='Auth'>
-         
-           
             <div className='auth_container'>
               <img className='login-logo' alt='' src={logo}/>
               <h1 className='auth_title'>Helo</h1>
             <div className='auth_input_box'>
               <p>Username: </p>
-              <input type='username'onChange={(e => this.updateUsername(e.target.value))}></input>
+              <input value={this.state.username} onChange={(e => this.handleChange('username', e.target.value))}></input>
             </div>
             <div className="auth_input_box">
               <p>Password: </p>
-              <input type='password' onChange={(e => this.updatePassword(e.target.value))}></input>
+              <input value={this.state.password} onChange={(e => this.handleChange('password', e.target.value))}></input>
             </div>
                <div className="auth_button_container">
               <button className='dark_button' onClick={() =>this.login()}>Login</button>

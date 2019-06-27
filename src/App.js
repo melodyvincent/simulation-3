@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react'
+import SideNav from './Components/SideNav/SideNav'
 import routes from './routes';
 import './App.css';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-      { routes }
-
-      </div>
-    );
-  }
+function App(){
+  return (
+    <div className="App">
+      <SideNav />
+      {routes}
+    </div>
+  )
 }
 
 export default App;

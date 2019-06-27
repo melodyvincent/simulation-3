@@ -5,6 +5,8 @@ import App from './App';
 import {HashRouter} from 'react-router-dom'
 import {Provider} from 'react-redux'
 import store from './redux/store'
+import axios from 'axios'
+import './reset.css'
 
 ReactDOM.render(
     <Provider store={store}>
